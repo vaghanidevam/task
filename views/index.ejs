@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Website</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Main Wrapper */
+        .wrapper {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Header */
+        h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a:hover {
+            background: #219150;
+        }
+
+        /* Image Section */
+        .image-container {
+            margin: 20px 0;
+        }
+
+        .image-container img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Rules Section */
+        .rules-section {
+            text-align: left;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .rules-section h2 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .rules-section ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .rules-section ul li {
+            color: #34495e;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        /* Responsive Design */
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                padding: 8px 15px;
+            }
+
+            .rules-section h2 {
+                font-size: 20px;
+            }
+
+            .rules-section ul li {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Wrapper -->
+    <div class="wrapper">
+        <!-- Header -->
+        <h1>Welcome to Task Website</h1>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a href="/user/login">User Login</a>
+            <a href="/user/signup">User Signup</a>
+            <a href="/admin/login">Admin Login</a>
+        </div>
+
+        <!-- Image Section -->
+        <!-- <div class="image-container">
+            <img src="https://via.placeholder.com/800x300.png?text=Earn+by+Completing+Tasks" alt="Earn by Completing Tasks">
+        </div> -->
+
+        <!-- Rules Section -->
+        <div class="rules-section">
+            <h2>Rules and Guidelines</h2>
+            <ul>
+                <li>Click the 'Click and Earn' button to earn coins.</li>
+                <li>After every 5 clicks, watch an ad to continue earning.</li>
+                <li>Minimum payout is 50 INR (50,000 coins).</li>
+                <li>Complete tasks honestly; fraudulent activity may result in a ban.</li>
+                <li>For any issues, contact support via the admin page.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

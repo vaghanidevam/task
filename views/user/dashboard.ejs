@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        /* Main Wrapper */
+        .wrapper {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        /* Main Container */
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Task Box */
+        .task-box {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-box h2 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .task-box p {
+            color: #34495e;
+            font-size: 18px;
+            margin: 8px 0;
+        }
+
+        /* Click Buttons */
+        #clickButton, #watchAdsButton {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        #clickButton:hover, #watchAdsButton:hover {
+            background: #219150;
+        }
+
+        /* Payout Link */
+        .payout-link {
+            display: block;
+            text-decoration: none;
+            background: #f39c12;
+            color: white;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 18px;
+            margin-top: 15px;
+            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .payout-link:hover {
+            background: #e67e22;
+        }
+    </style>
+</head>
+<body>
+    <!-- Wrapper for Centered Layout -->
+    <div class="wrapper">
+        <!-- Main Container -->
+        <div class="container">
+            <!-- Task Box -->
+            <div class="task-box">
+                <h2>Main Task Area</h2>
+                <p>Total Clicks: <span id="totalClicks"><%= user.totalClicks %></span></p>
+                <p>Total Earnings: <span id="totalEarnings"><%= (user.coins / 10).toFixed(2) %> Rs</span></p>
+
+                <!-- Click and Earn Button -->
+                <button id="clickButton">Click and Earn</button>
+
+                <!-- Click and Watch Ads Button (Initially Hidden) -->
+                <button id="watchAdsButton" style="display: none;">Click and Watch Ads</button>
+            </div>
+
+            <!-- Payout Link -->
+            <a class="payout-link" href="/user/payout">Request Payout</a>
+        </div>
+    </div>
+
+    <script>
+        // Get references to elements
+        const clickButton = document.getElementById("clickButton");
+        const watchAdsButton = document.getElementById("watchAdsButton");
+        const totalClicksElem = document.getElementById("totalClicks");
+        const totalEarningsElem = document.getElementById("totalEarnings");
+
+        // Initialize click count from user data
+        let clickCount = parseInt(totalClicksElem.textContent) || 0;
+
+        // Event Listener for Click and Earn
+        clickButton.addEventListener("click", () => {
+            clickCount++;
+            updateClicks();
+
+            if (clickCount % 5 === 0) {
+                clickButton.style.display = "none";
+                watchAdsButton.style.display = "block";
+            }
+        });
+
+        // Event Listener for Click and Watch Ads
+        watchAdsButton.addEventListener("click", () => {
+            const adLink = "https://www.effectiveratecpm.com/zwi7nyphf?key=72687a6fcafbda1913eb7f65ea5268d3"; // Provide your YouTube link
+            window.open(adLink, "_blank");
+
+            clickButton.style.display = "block";
+            watchAdsButton.style.display = "none";
+        });
+
+        // Update Clicks Function
+        function updateClicks() {
+            fetch('/user/click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                totalClicksElem.textContent = data.totalClicks;
+                totalEarningsElem.textContent = (data.coins / 100).toFixed(2) + " Rs";
+            })
+            .catch(err => console.error('Error:', err));
+        }
+    </script>
+</body>
+</html>

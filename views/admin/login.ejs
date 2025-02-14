@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Form Wrapper */
+        .form-wrapper {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .form-wrapper h1 {
+            color: #8e44ad;
+            margin-bottom: 20px;
+        }
+
+        .form-wrapper input[type="text"],
+        .form-wrapper input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-wrapper button {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-wrapper button:hover {
+            background: #732d91;
+        }
+
+        .form-wrapper .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media only screen and (max-width: 600px) {
+            .form-wrapper {
+                padding: 15px;
+            }
+
+            .form-wrapper h1 {
+                font-size: 24px;
+            }
+
+            .form-wrapper button {
+                font-size: 16px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Form Wrapper -->
+    <div class="form-wrapper">
+        <h1>Admin Login</h1>
+        <% if (error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <form action="/admin/login" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

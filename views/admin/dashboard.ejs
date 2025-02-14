@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .summary div {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 250px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #c0392b;
+        }
+
+        .pagination {
+            text-align: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        .pagination a.active {
+            background: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    
+    <div class="summary">
+        <div>Total Users: <%= totalUsers %></div>
+        <div>Total Clicks: <%= totalClicks %></div>
+        <div>Total Earnings: <%= totalEarnings %> Rs</div>
+        <div>Total Payout Amount: <%= totalPayoutAmount / 100 %> Rs</div>
+    </div>
+
+    <h2>User List</h2>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Total Clicks</th>
+            <th>Total Earnings</th>
+            <th>Action</th>
+        </tr>
+        <% users.forEach(user => { %>
+            <tr>
+                <td><%= user.username %></td>
+                <td><%= user.totalClicks %></td>
+                <td><%= (user.coins).toFixed(2) %> Rs</td>
+                <td>
+                    <form action="/admin/remove-user" method="POST">
+                        <input type="hidden" name="userId" value="<%= user._id %>">
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+
+    <div class="pagination">
+        <% for(let i = 1; i <= totalPages; i++) { %>
+            <a href="/admin/dashboard?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+        <% } %>
+    </div>
+
+    <h2>All Users' Payout History</h2>
+    <table>
+        <tr>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+        <% allPayouts.forEach(user => { %>
+            <!-- Store the username once and use it in each payout row -->
+            <% user.payoutHistory.forEach(payout => { %>
+                <tr>
+                    <td><%= payout.amount %> Rs</td>
+                    <td><%= payout.method %></td>
+                    <td><%= payout.status %></td>
+                    <td><%= new Date(payout.date).toLocaleDateString() %></td>
+                </tr>
+            <% }) %>
+        <% }) %>
+    </table>
+    
+</body>
+</html>

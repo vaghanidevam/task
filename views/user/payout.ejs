@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payout Request</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* Header */
+        .payout-section h3 {
+            color: #333;
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .payout-section p {
+            color: #555;
+            text-align: center;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        /* Input Styles */
+        .payout-section input, 
+        .payout-section select, 
+        .payout-section button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .payout-section input:focus, 
+        .payout-section select:focus {
+            border-color: #0072ff;
+            box-shadow: 0 0 10px rgba(0, 114, 255, 0.3);
+            outline: none;
+        }
+
+        /* Submit Button */
+        .payout-section button {
+            background: #0072ff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .payout-section button:hover {
+            background: #0056cc;
+        }
+
+        /* Error and Success Messages */
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 14px;
+        }
+        .success {
+            color: #27ae60;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* History Table */
+        .history {
+            margin-top: 20px;
+        }
+        .history h3 {
+            color: #333;
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .history table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        .history th {
+            background: #0072ff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .history td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .history tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            .payout-section h3,
+            .history h3 {
+                font-size: 20px;
+            }
+            .payout-section input, 
+            .payout-section select, 
+            .payout-section button {
+                padding: 12px;
+                font-size: 14px;
+            }
+            .history table {
+                font-size: 12px;
+            }
+            .history th, .history td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <div class="payout-section">
+            <h3>Request Payout</h3>
+            <p>Your Coin Balance: <strong><%= coinBalance %> coins (~<%= coinBalance / 100 %> INR)</strong></p>
+            
+            <% if (error) { %>
+                <p class="error"><%= error %></p>
+            <% } %>
+            <% if (success) { %>
+                <p class="success"><%= success %></p>
+            <% } %>
+
+            <form action="/user/payout" method="POST">
+                <input type="number" id="amount" name="amount" min="50" placeholder="Enter amount in INR" required>
+                
+                <select id="method" name="method" required>
+                    <option value="" disabled selected>Select Payment Method</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Google Pay">Google Pay</option>
+                </select>
+
+                <input type="text" id="details" name="details" placeholder="Enter UPI ID or Phone Number" required>
+
+                <button type="submit">Request Payout</button>
+            </form>
+        </div>
+
+        <div class="history">
+            <h3>Payout History</h3>
+            <table>
+                <tr>
+                    <th>Amount (INR)</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+                <% payoutHistory.forEach(history => { %>
+                    <tr>
+                        <td><%= history.amount %> INR</td>
+                        <td><%= history.method %></td>
+                        <td><%= history.status %></td>
+                        <td><%= new Date(history.date).toLocaleDateString() %></td>
+                    </tr>
+                <% }) %>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
