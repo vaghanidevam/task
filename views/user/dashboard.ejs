@@ -61,7 +61,7 @@
         }
 
         /* Click Buttons */
-        #clickButton, #watchAdsButton {
+        #clickButton, #watchAdsButton, #joinTelegramButton {
             background: #27ae60;
             color: white;
             border: none;
@@ -75,7 +75,7 @@
             display: block;
         }
 
-        #clickButton:hover, #watchAdsButton:hover {
+        #clickButton:hover, #watchAdsButton:hover, #joinTelegramButton:hover {
             background: #219150;
         }
 
@@ -116,6 +116,13 @@
                 <button id="watchAdsButton" style="display: none;">Click and Watch Ads</button>
             </div>
 
+            <!-- New Bonus Section -->
+            <div class="task-box">
+                <h2>Bonus Area</h2>
+                <p>Join our Telegram Channel and get bonus coins!</p>
+                <button id="joinTelegramButton">Click to Join Telegram Channel and Get Bonus</button>
+            </div>
+
             <!-- Payout Link -->
             <a class="payout-link" href="/user/payout">Request Payout</a>
         </div>
@@ -127,6 +134,7 @@
         const watchAdsButton = document.getElementById("watchAdsButton");
         const totalClicksElem = document.getElementById("totalClicks");
         const totalEarningsElem = document.getElementById("totalEarnings");
+        const joinTelegramButton = document.getElementById("joinTelegramButton");
 
         // Initialize click count from user data
         let clickCount = parseInt(totalClicksElem.textContent) || 0;
@@ -144,11 +152,31 @@
 
         // Event Listener for Click and Watch Ads
         watchAdsButton.addEventListener("click", () => {
-            const adLink = "https://www.effectiveratecpm.com/zwi7nyphf?key=72687a6fcafbda1913eb7f65ea5268d3"; // Provide your YouTube link
+            const adLink = "https://www.effectiveratecpm.com/zwi7nyphf?key=72687a6fcafbda1913eb7f65ea5268d3";
             window.open(adLink, "_blank");
 
             clickButton.style.display = "block";
             watchAdsButton.style.display = "none";
+        });
+
+        // Event Listener for Join Telegram Button
+        joinTelegramButton.addEventListener("click", () => {
+            const telegramLink = "https://t.me/+BGoJd3RiUnY5OGQ1"; // Replace with your Telegram Channel link
+            window.open(telegramLink, "_blank");
+
+            // Call backend to give bonus
+            fetch('/user/bonus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert("Bonus received!");
+                totalEarningsElem.textContent = (data.coins / 100).toFixed(2) + " Rs";
+            })
+            .catch(err => console.error('Error:', err));
         });
 
         // Update Clicks Function

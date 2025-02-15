@@ -13,4 +13,5 @@ router.post('/click', isLoggedIn, userController.postClick);
 router.get('/payout', isLoggedIn, userController.getPayout);
 router.post('/payout', isLoggedIn, userController.postPayout);
 router.post('/click', userController.postClick);
+router.get('/user/bonus', userController.getBonus);
 module.exports = router;

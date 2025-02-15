@@ -121,3 +121,19 @@ exports.postPayout = async (req, res) => {
         payoutHistory: user.payoutHistory
     });
 };
+exports.getBonus = async (req, res) => {
+    const userId = req.session.userId;
+    try {
+        const user = await User.findById(userId);
+        if (user && !user.bonusReceived) {
+            user.coins += 100; // Bonus amount (100 coins example)
+            user.bonusReceived = true;
+            await user.save();
+            res.json({ coins: user.coins });
+        } else {
+            res.status(400).json({ error: 'Bonus already received.' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Server error.' });
+    }
+};
